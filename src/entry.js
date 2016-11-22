@@ -2,29 +2,13 @@ require('./index.html');
 require('./hamburgers.min.css');
 require('./scss/style.scss');
 require('./js/hammer.min.js');
+var Navigation= require('./components/navigation.js');
 
 var App = class {
   constructor() {
     this.navigation = new Navigation();
     this.info = new Info();
     this.questions = new Questions();
-  }
-}
-
-var Navigation = class {
-  constructor() {
-    this.toggle = document.querySelector(".header .toggle");
-    this.navPanel = document.querySelector(".navigation");
-    var _navPanel = this.navPanel;
-    var hammertime = new Hammer(this.navPanel);
-    hammertime.on('swipeleft', function() {
-    	// console.log(ev);
-      _navPanel.classList.toggle('open');
-    });
-    this.toggle.addEventListener('click', () => {
-      this.toggle.classList.toggle('is-active');
-      this.navPanel.classList.toggle('open');
-    });
   }
 }
 
