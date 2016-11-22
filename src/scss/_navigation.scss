@@ -1,0 +1,45 @@
+.navigation {
+  padding: 80px 0px;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  right: 100%;
+  width: 100%;
+  background-color: $c-primary;
+  display: flex;
+  flex-flow: column nowrap;
+  // justify-content: center;
+  transform: translateX(0%);
+  transition: transform .1s ease-in;
+
+  &.open {
+    transform: translateX(100%);
+  }
+
+  @include breakpoint(md){
+    transform: translateX(100%);
+    width: 150px;
+    justify-content: center;
+  }
+
+  a {
+      color: $f-white;
+      display: block;
+      width: 100%;
+      padding: 10px 20px;
+      font-size: 28px;
+      cursor: pointer;
+      color: transparentize($c-white, 0.3);
+
+      @include breakpoint(md) {
+        font-size: 16px;
+      }
+
+      &.is-active,
+      &:hover {
+        color: $c-white;
+        text-decoration: none;
+      }
+    }
+  }

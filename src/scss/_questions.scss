@@ -1,0 +1,127 @@
+.question {
+
+  display: none;
+  max-width: 420px;
+  min-width: 320px;
+  flex-flow: column nowrap;
+  height: 100%;
+
+  @include breakpoint(md){
+    height: auto;
+  }
+
+  .table {
+    margin-bottom: 0px;
+    margin-top: 20px;
+    border: 1px solid #dddddd;
+
+    td, th {
+      padding: 15px;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  &.visible {
+    display: flex;
+    opacity: 1;
+
+    &.appearing {
+      animation: display-card .4s;
+    }
+
+    &.disappearing {
+      position: absolute;
+      // width: 100%;
+      animation: remove-card .2s;
+    }
+
+    @keyframes display-card {
+      0% {opacity: 0; transform: scale(0.9);}
+      60% {opacity: 0.8; transform: scale(1.02);}
+      100% { opacity: 1; transform: scale(1);}
+    }
+
+    @keyframes remove-card {
+      0% { opacity: 1; transform: scale(1);}
+      20% { opacity: 0.1; }
+      100% {opacity: 0.0; transform: scale(1.2);}
+    }
+  }
+
+  .btn {
+    &--add,
+    &--continue {
+      box-shadow: none;
+      width: 50%;
+      align-self: flex-end;
+      background-color: #ffffff;
+      border: 1px solid #dddddd;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &--icon {
+      background-color: transparent;
+      color: $c-primary;
+      // border: 1px solid currentColor;
+      border: none;
+      box-shadow: none;
+
+      padding: 0px;
+      i {
+        color: inherit;
+      }
+    }
+  }
+
+  .btn--icon {
+
+  }
+
+  &__buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin: 15px 0px;
+    min-height: 60px;
+
+    .btn {
+      &--add,
+      &--continue {
+        box-shadow: none;
+        flex: 1 1 auto;
+        display: flex;
+        width: auto;
+        justify-content: space-between;
+        align-items: center;
+        margin: 5px;
+
+        &:first-child {
+          margin-left: 0px;
+        }
+        &:last-child {
+          margin-right: 0px;
+        }
+      }
+    }
+  }
+
+
+
+  .list-group-item {
+    color: $f-dark;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $c-white;
+    }
+  }
+}

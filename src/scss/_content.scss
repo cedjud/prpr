@@ -1,0 +1,79 @@
+.content {
+  height: 100%;
+  width: 200%;
+  display: flex;
+  align-content: stretch;
+  justify-content: flex-end;
+  transform: translateX(-50%);
+  transition: transform .1s ease-in;
+
+  &.info {
+    transform: translateX(0%);
+    justify-content: flex-start;
+  }
+
+  @include breakpoint(md){
+    margin-left: 150px;
+    width: auto;
+    transform: translateX(0%);
+  }
+
+  .form {
+      flex: 0 0 50%;
+
+      p {
+        color: $f-dark;
+      }
+      @include breakpoint(md){
+        flex: 1;
+      }
+  }
+
+  .info {
+    z-index: 3;
+    flex: 0 0 40%;
+    background-color: $c-primary;
+    color: $f-white;
+
+    h2 {
+      color: $f-white;
+    }
+
+    &__text {
+      max-width: 380px;
+    }
+
+    .toggle {
+      background: none;
+      border: none;
+      color: $c-primary;
+      position: absolute;
+      bottom: 10px;
+      right: -60px;
+
+      @include breakpoint(md){
+        display: none;
+      };
+
+      &:hover {
+      }
+    }
+  }
+
+  > div {
+    position: relative;
+    padding: 100px 20px 20px;
+    flex: 1 1 50%;
+    height: 100vh;
+    // overflow-y: scroll;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    // overflow-x: hidden;
+    // overflow-y: scroll;
+    align-items: center;
+    @include breakpoint(lg){
+      padding: 80px 40px 40px;
+    }
+  }
+}

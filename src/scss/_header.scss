@@ -1,0 +1,68 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // background-color: currentColor;
+  height: 80px;
+  padding: 0px 20px;
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+
+  @include breakpoint-max(md){
+    background-color: $c-primary;
+
+    a {
+      color: $c-white;
+    }
+  }
+
+  .toggle {
+    transform: scale(0.6);
+    transform-origin: left;
+    padding-left: 0px;
+    padding-right: 0px;
+
+    .hamburger-inner {
+      background-color: $c-white;
+
+      &:after,
+      &:before {
+        background-color: $c-white;
+      }
+    }
+    // display: none;
+    @include breakpoint(md) {
+      display: none;
+    }
+  }
+
+  a {
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .brand {
+    margin: 0px;
+
+    a {
+      color: $c-white;
+      position: relative;
+      top: -5px;
+
+    }
+  }
+
+  .authentication {
+    width: 40px;
+    text-align: right;
+
+    a {
+      @include breakpoint(md){
+        color: $c-primary;
+      }
+    }
+  }
+}
