@@ -1,112 +1,153 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+var data = require('./data.json');
+
 require('./index.html');
 require('./hamburgers.min.css');
-require('./scss/style.scss');
+// require('./scss/style.scss');
 require('./js/hammer.min.js');
-var Navigation= require('./components/navigation.js');
 
-var App = class {
-  constructor() {
-    this.navigation = new Navigation();
-    this.info = new Info();
-    this.questions = new Questions();
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      index: 0,
+      story: '',
+    };
+    this.gotoIndex = this.gotoIndex.bind(this);
+    this.updateIndex = this.updateIndex.bind(this);
+    this.updateStory = this.updateStory.bind(this);
   }
-}
-
-var Info = class {
-  constructor() {
-    this.toggle = document.querySelector(".info .toggle");
-    this.content = document.querySelector(".content");
-    var _content = this.content;
-    this.infoPanel = document.querySelector(".info");
-    this.formPanel = document.querySelector(".form");
-    var formSwipe = new Hammer(this.formPanel);
-    formSwipe.on('swiperight', function() {
-        _content.classList.toggle('info');
-    });
-    var infoSwipe = new Hammer(this.infoPanel);
-    infoSwipe.on('swipeleft', function() {
-      _content.classList.toggle('info');
-    });
-    console.log(this.toggle);
-    this.toggle.addEventListener("click", () => {
-      this.content.classList.toggle('info');
-    });
-  };
-}
-
-var Questions = class {
-  constructor() {
-
-    this.questions = document.querySelectorAll('.question');
-    this.continues = document.querySelectorAll('.btn--continue');
-
-    this.questionsArray = this.createQuestionArray(this.questions);
-    this.continuesArray = this.createQuestionArray(this.continues);
-
-
-    this.questionIndex = 0;
-
-    this.continuesArray.forEach( (continueButton) => {
-      continueButton.addEventListener('click', () => {
-        this.displayNextCard();
-      });
-    });
-
-    this.displayCard(this.questionsArray[this.questionIndex]);
-
+  componentDidMount(){
+    console.log('yo');
+    this.updateStory(this.props.data.questions[this.state.index].story)
+    // console.log(this.props.data.questions[this.state.index].story)
   }
-  createQuestionArray(nodeList) {
-    var tempArray = [];
-    nodeList.forEach( (question) => {
-      tempArray.push(question);
-    });
-    return tempArray;
+  updateStory(string){
+    this.setState({
+      story: this.state.story + string
+    })
   }
-  displayNextCard() {
-    if (this.questionIndex < this.questionsArray.length - 1){
-      this.displayNthCard(this.questionIndex + 1);
-    } else {
-      this.displayNthCard(0);
+  updateIndex(type, target){
+    switch (type) {
+      case 'next':
+        if (this.state.index < this.props.data.questions.length - 1 ){
+          this.setState({
+            index: this.state.index + 1,
+          });
+        }
+        break;
+
+      case 'previous':
+        if ( this.state.index >= 1 ){
+          this.setState({
+            index: this.state.index - 1,
+          });
+        }
+        break;
+
+      case 'goto':
+        this.setState({
+          index: target,
+        });
+        break;
+
+      default:
+        console.log("Argument should be 'next', 'previous' or 'goto'.")
     }
   }
-  displayNthCard(index) {
-    console.log(this.questionIndex);
-    console.log(index);
-    this.removeCard(this.questionsArray[this.questionIndex]);
-    this.displayCard(this.questionsArray[index]);
+  gotoIndex(event){
+    event.preventDefault();
+    if (event.target.number.value < this.props.data.questions.length && event.target.number.value >= 0){
+      this.updateIndex('goto', parseInt(event.target.number.value - 1));
+    } else {
+      console.log("Target out of range.");
+    }
   }
-  displayCard(card) {
-    this.questionIndex = card.dataset.questionId - 1;
-    card.classList.add('visible','appearing');
-    // card.style.display = "initial";
-    var entryTimeOut = window.setTimeout(function(){
-      card.classList.remove('appearing');
-    }, 350)
-  }
-  removeCard(card) {
-    // card.style.display = "none";
-    card.classList.add('disappearing');
-    var exitTimeOut = window.setTimeout(function(){
-      card.classList.remove('visible','disappearing');
-    }, 150);
-  }
-  listQuestion() {
-    this.questions.forEach( (question) => {
-      console.log(question);
-    });
+  render(){
+    return (
+      <div>
+        <Header title={this.props.data.title}></Header>
+        {this.state.story}
+        <Question question={this.props.data.questions[this.state.index]} updateIndex={this.updateIndex} updateStory={this.updateStory}></Question>
+        <Controls updateIndex={this.updateIndex} gotoIndex={this.gotoIndex}></Controls>
+      </div>
+    );
   }
 }
 
-// helpers
+class Question extends React.Component {
+  render(){
+    var responses;
+    if (this.props.question.responses.type == "multiple") {
+      responses = <Multiple
+                      responses={this.props.question.responses.values}
+                      updateIndex={this.props.updateIndex}
+                      updateStory={this.props.updateStory}>
+                  </Multiple>
+    }
+    return (
+    <div>
+      <h2>{this.props.question.id}/12</h2>
+      <h1>{this.props.question.title}</h1>
+      {this.props.question.responses.type}
+      {responses}
+      {/* <Multiple responses={this.props.question.responses.values} updateIndex={this.props.updateIndex}></Multiple> */}
+    </div>
+    );
+  }
+}
 
-// forEach method, could be shipped as part of an Object Literal/Module
+class Multiple extends React.Component {
+  constructor(props){
+    super(props);
+    this.handleResponse = this.handleResponse.bind(this);
+  }
+  handleResponse(event){
+    this.props.updateIndex('next');
+    console.log(event.target.value);
+    this.props.updateStory(event.target.value)
+  }
+  render(){
+    var responses = this.props.responses.map((response, index) => {
+      return (
+        <li key={index}><button onClick={this.handleResponse} value={response}>{response}</button></li>
+      )
+    })
+    return (
+      <ul>
+        {responses}
+      </ul>
+    )
+  }
+}
 
+class Controls extends React.Component {
+  render(){
+    return (
+      <div>
+        <button onClick={() => this.props.updateIndex('previous')}>previous ☞</button>
+        <button onClick={() => this.props.updateIndex('next')}>next ☞</button>
+        <form onSubmit={this.props.gotoIndex}>
+          <input type="number" name="number"></input>
+          <button type="Submit">Goto 5 ☞</button>
+        </form>
+      </div>
+    );
+  }
+}
 
+class Header extends React.Component {
+  render(){
+    return (
+      <h1>{this.props.title}</h1>
+    );
+  }
+}
 
-var nav = document.querySelector('.navigation');
-// var hammertime = new Hammer(nav);
-// hammertime.on('swipeleft', function(ev) {
-// 	console.log(ev);
-// });
-
-var Prepr = new App();
+ReactDOM.render(
+  // <h1>Hello, world!</h1>,
+  <App data={data}></App>,
+  document.getElementById('root')
+);

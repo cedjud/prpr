@@ -14,6 +14,9 @@ module.exports = {
       { test: /\.scss$/, loader: "style!css!sass" },
       { test: /\.html$/, loader: "file-loader?name=index.html" },
       // { test: /\.html$/, loader: "file-loader?name=index-[hash:6].html" },
+      // { test: /\.jsx?$/, loaders: ['babel?cacheDirectory'], include: PATHS.app },
+      { test: /\.json?$/, loader: 'json-loader'},
+      { test: /\.jsx?$/, loader: 'babel'}
     ]
   }
 };
