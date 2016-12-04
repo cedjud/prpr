@@ -8,6 +8,7 @@
         "story": "You are applying to college in:",
         "responses":
           {
+            "name": "year",
             "type": "multiple",
             "values": [ 2017, 2018, 2019 ]
           }
@@ -16,29 +17,40 @@
         "id": 2,
         "title": "Got a dream school?",
         "lede": "Choose it from the list below. If you’re not sure, don’t worry too much about it. You can always change it later.",
-        "story": "",
+        "story": "Your dream school is:",
         "responses":
           {
-            "type": "list"
+            "name": "school",
+            "type": "list",
+            "values": [
+              "Brown University",
+              "Columbia University",
+              "Cornell University",
+              "Dartmouth College",
+              "Harvard University",
+              "University Of Pennsylvania",
+              "Princeton University",
+              "Yale University"
+            ]
           }
       },
       {
         "id": 3,
         "title": "Any other schools you’ll be applying to?",
         "lede": "Add them now.",
-        "story": "",
+        "story": "You'll be applying to other schools as well.",
         "responses":
           {
             "type": "boolean",
-            "true": "next",
-            "false": ["goto", 2]
+            "false": "next",
+            "true": [ "goto", 2 ]
           }
       },
       {
         "id": 4,
         "title": "Have you ever taken the SAT test?",
         "lede": "Practice tests count too.",
-        "story": "",
+        "story": "You have take the SAT test before.",
         "responses":
           {
             "type": "boolean",
@@ -53,7 +65,14 @@
         "story": "",
         "responses":
           {
-            "type": "date"
+            "name": "sat-date",
+            "type": "form",
+            "inputs": [
+              {
+                "type": "date",
+                "label": "Test date:"
+              }
+            ]
           }
       },
       {
@@ -62,9 +81,28 @@
         "lede": "",
         "story": "",
         "responses":
-          {
-            "type": "number"
-          }
+        {
+          "name": "sat-score",
+          "type": "form",
+          "inputs": [
+            {
+              "type": "number",
+              "label": "Reading and Writing score out of 800:",
+              "min": 0,
+              "max": 800,
+              "step": 1,
+              "precision": 1
+            },
+            {
+              "type": "number",
+              "label": "Mathematics score out of 800:",
+              "min": 0,
+              "max": 800,
+              "step": 1,
+              "precision": 1
+            }
+          ]
+        }
       },
       {
         "id": 7,
@@ -74,8 +112,8 @@
         "responses":
           {
             "type": "boolean",
-            "true": "next",
-            "false": ["goto", 5]
+            "false": "next",
+            "true": ["goto", 5]
           }
       },
       {
@@ -95,28 +133,101 @@
         "title": "When did you take the test?",
         "lede": "",
         "story": "",
-        "responses": {}
+        "responses": {
+          "name": "act-date",
+          "type": "form",
+          "inputs": [
+            {
+              "type": "date",
+              "label": "Test date:"
+            }
+          ]
+        }
       },
       {
         "id": 10,
         "title": "What were your scores?",
         "lede": "",
         "story": "",
-        "responses": {}
+        "responses": {
+          "name": "act-score",
+          "type": "form",
+          "inputs": [
+            {
+              "type": "number",
+              "label": "English score out of 36:",
+              "min": 0,
+              "max": 36,
+              "step": 1,
+              "precision": 1
+            },
+            {
+              "type": "number",
+              "label": "Mathematics score out of 36:",
+              "min": 0,
+              "max": 36,
+              "step": 1,
+              "precision": 1
+            },
+            {
+              "type": "number",
+              "label": "Reading score out of 36:",
+              "min": 0,
+              "max": 36,
+              "step": 1,
+              "precision": 1
+            },
+            {
+              "type": "number",
+              "label": "Science score out of 36:",
+              "min": 0,
+              "max": 36,
+              "step": 1,
+              "precision": 1
+            }
+          ]
+        }
       },
       {
         "id": 11,
         "title": "Do you have more ACT scores from other test dates?",
         "lede": "",
         "story": "",
-        "responses": {}
+        "responses": {
+          "type": "boolean",
+          "false": "next",
+          "true": ["goto", 9]
+        }
       },
       {
         "id": 12,
         "title": "Tell us a little about your grades:",
         "lede": "",
         "story": "",
-        "responses": {}
+        "responses": {
+          "name": "gpa",
+          "type": "form",
+          "inputs": [
+            {
+              "name": "gpa-weighted",
+              "type": "number",
+              "label": "Weighted average GPA:",
+              "min": 0,
+              "max": 4,
+              "step": 0.01,
+              "precision": 3
+            },
+            {
+              "name": "gpa-unweighted",
+              "type": "number",
+              "label": "Unweighted average GPA:",
+              "min": 0,
+              "max": 5,
+              "step": 0.01,
+              "precision": 3
+            }
+          ]
+        }
       }
     ]
 }
