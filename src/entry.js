@@ -1,16 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 
 var data = require('./data.json');
+const schoolData = require('./schoolData.json');
 
 // Components
-import Question from './components/question.jsx';
 import Debug from './components/debug.jsx';
 import Graph from './components/graph.jsx';
+import Header from './components/header.jsx';
+import Question from './components/question.jsx';
+import Story from './components/story.jsx';
 
 require('./index.html');
 require('./hamburgers.min.css');
 // require('./scss/style.scss');
+require('normalize.css');
 require('./style.scss');
 require('./js/hammer.min.js');
 
@@ -19,7 +24,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       index: 0,
-      story: '',
+      responsesObject: {},
       responses: []
     };
     this.gotoIndex = this.gotoIndex.bind(this);
@@ -27,22 +32,16 @@ class App extends React.Component {
     this.updateStory = this.updateStory.bind(this);
   }
   // componentDidMount(){
-  //   this.updateIndex('goto',13);
+  //   this.updateIndex('goto',11);
   // }
   updateStory(value, id){
-    let newArray = this.state.responses;
-    let exists = false;
-    newArray.forEach((response) => {
-      // console.log(response.id);
-      if (response.id === id){
-        exists = true
-      }
-    })
-    newArray.push({ id : id, value: value} );
-    this.setState({
-      story: this.state.story + ' | ' + value,
-      responses: newArray
-    })
+    let newObject = this.state.responsesObject;
+    if (_.has(newObject, id)){
+      newObject[id].push(value);
+    } else {
+      newObject[id] = new Array();
+      newObject[id].push(value);
+    }
   }
   updateIndex(type, target){
     switch (type) {
@@ -84,40 +83,37 @@ class App extends React.Component {
 
   render(){
     var content;
-    var responses = this.state.responses.map((response, index)=>{
-      return (
-        <p key={index}>{response.id}: {response.value}</p>
-      )
-    })
-    if (this.state.index === 12) {
+    var schools = this.props.schoolData.map((school, index) => {
+      return school.collegeName;
+    });
+    if (this.state.index === 10) {
       content = (
-        <main className="content">
-          <Graph data={this.state.responses}></Graph>
-          </main>
+          <Graph data={this.state.responsesObject} schoolData={this.props.schoolData}></Graph>
         );
     } else {
       content = (
-        <main className="content">
-          <div className="story">
-            <Story
-              responses={this.state.responses}
-              questions={this.props.data.questions}>
-            </Story>
-          </div>
-          <div className="questions">
-            <Question
-              question={this.props.data.questions[this.state.index]}
-              updateIndex={this.updateIndex}
-              updateStory={this.updateStory}>
-            </Question>
-          </div>
-        </main>
+        <div className="questions">
+          <Question
+            schools={schools}
+            question={this.props.data.questions[this.state.index]}
+            updateIndex={this.updateIndex}
+            updateStory={this.updateStory}>
+          </Question>
+        </div>
       )
     }
     return (
       <div>
         <Header title={this.props.data.title}></Header>
-        {content}
+        <main className="content">
+          <div className="story">
+            <Story
+              responses={this.state.responsesObject}
+              questions={this.props.data.questions}>
+            </Story>
+          </div>
+          {content}
+        </main>
         <Debug
             updateIndex={this.updateIndex}
             gotoIndex={this.gotoIndex}>
@@ -127,38 +123,8 @@ class App extends React.Component {
   }
 }
 
-
-class Story extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      usedQuestions: []
-    }
-  }
-  render(){
-    var responses = this.props.responses.map((response, index) => {
-      return (
-        <p key={index}>{response.is} {response.value}</p>
-      )
-    })
-    return (
-      <div className="">
-        {responses}
-      </div>
-    )
-  }
-}
-
-class Header extends React.Component {
-  render(){
-    return (
-      <h1 className="header">{this.props.title}</h1>
-    );
-  }
-}
-
+// Render React Root
 ReactDOM.render(
-  // <h1>Hello, world!</h1>,
-  <App data={data}></App>,
+  <App data={data} schoolData={schoolData}></App>,
   document.getElementById('root')
 );

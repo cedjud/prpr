@@ -22,6 +22,7 @@
           {
             "name": "school",
             "type": "list",
+            "json": true,
             "values": [
               "Brown University",
               "Columbia University",
@@ -55,43 +56,30 @@
           {
             "type": "boolean",
             "true": "next",
-            "false": ["goto", 8]
+            "false": ["goto", 7]
           }
       },
       {
         "id": 5,
-        "title": "When did you take the test?",
-        "lede": "",
-        "story": "",
-        "responses":
-          {
-            "name": "sat-date",
-            "type": "form",
-            "inputs": [
-              {
-                "type": "date",
-                "label": "Test date:"
-              }
-            ]
-          }
-      },
-      {
-        "id": 6,
         "title": "What were your scores?",
-        "lede": "",
+        "lede": "When did you take the test?",
         "story": "",
         "responses":
         {
-          "name": "sat-score",
+          "name": "satScore",
           "type": "form",
           "inputs": [
+            {
+              "type": "date",
+              "label": "Test date:"
+            },
             {
               "type": "number",
               "label": "Reading and Writing score out of 800:",
               "min": 0,
               "max": 800,
               "step": 1,
-              "precision": 1
+              "precision": 0
             },
             {
               "type": "number",
@@ -99,13 +87,13 @@
               "min": 0,
               "max": 800,
               "step": 1,
-              "precision": 1
+              "precision": 0
             }
           ]
         }
       },
       {
-        "id": 7,
+        "id": 6,
         "title": "Do you have more SAT scores from other test dates?",
         "lede": "Add score.",
         "story": "",
@@ -117,7 +105,7 @@
           }
       },
       {
-        "id": 8,
+        "id": 7,
         "title": "Have you ever taken the ACT test?",
         "lede": "Practice tests count too.",
         "story": "",
@@ -125,41 +113,29 @@
           {
             "type": "boolean",
             "true": "next",
-            "false": ["goto", 12]
+            "false": ["goto", 10]
           }
       },
       {
-        "id": 9,
-        "title": "When did you take the test?",
+        "id": 8,
+        "title": "What were your scores?",
         "lede": "",
         "story": "",
         "responses": {
-          "name": "act-date",
+          "name": "actScore",
           "type": "form",
           "inputs": [
             {
               "type": "date",
               "label": "Test date:"
-            }
-          ]
-        }
-      },
-      {
-        "id": 10,
-        "title": "What were your scores?",
-        "lede": "",
-        "story": "",
-        "responses": {
-          "name": "act-score",
-          "type": "form",
-          "inputs": [
+            },
             {
               "type": "number",
               "label": "English score out of 36:",
               "min": 0,
               "max": 36,
               "step": 1,
-              "precision": 1
+              "precision": 0
             },
             {
               "type": "number",
@@ -167,7 +143,7 @@
               "min": 0,
               "max": 36,
               "step": 1,
-              "precision": 1
+              "precision": 0
             },
             {
               "type": "number",
@@ -175,7 +151,7 @@
               "min": 0,
               "max": 36,
               "step": 1,
-              "precision": 1
+              "precision": 0
             },
             {
               "type": "number",
@@ -183,24 +159,24 @@
               "min": 0,
               "max": 36,
               "step": 1,
-              "precision": 1
+              "precision": 0
             }
           ]
         }
       },
       {
-        "id": 11,
+        "id": 9,
         "title": "Do you have more ACT scores from other test dates?",
         "lede": "",
         "story": "",
         "responses": {
           "type": "boolean",
           "false": "next",
-          "true": ["goto", 9]
+          "true": ["goto", 8]
         }
       },
       {
-        "id": 12,
+        "id": 10,
         "title": "Tell us a little about your grades:",
         "lede": "",
         "story": "",
@@ -213,18 +189,18 @@
               "type": "number",
               "label": "Weighted average GPA:",
               "min": 0,
-              "max": 4,
+              "max": 5,
               "step": 0.01,
-              "precision": 3
+              "precision": 2
             },
             {
               "name": "gpa-unweighted",
               "type": "number",
               "label": "Unweighted average GPA:",
               "min": 0,
-              "max": 5,
+              "max": 4,
               "step": 0.01,
-              "precision": 3
+              "precision": 2
             }
           ]
         }

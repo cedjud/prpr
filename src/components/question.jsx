@@ -17,15 +17,14 @@ class Question extends React.Component {
     } else if (this.props.question.responses.type === "list") {
       responses = <Select
                       questionId={this.props.question.id}
-                      // responses={this.props.question.responses.values}
                       responses={this.props.question.responses}
+                      schools={this.props.schools}
                       updateIndex={this.props.updateIndex}
                       updateStory={this.props.updateStory}>
                   </Select>
     } else if (this.props.question.responses.type === "boolean") {
       responses = <Boolean
                     questionId={this.props.question.id}
-                    // responses={this.props.question.responses.values}
                     responses={this.props.question.responses}
                     updateIndex={this.props.updateIndex}
                     updateStory={this.props.updateStory}>
@@ -33,17 +32,15 @@ class Question extends React.Component {
     } else if (this.props.question.responses.type === "form") {
       responses = <Form
                     questionId={this.props.question.id}
-                    // responses={this.props.question.responses.inputs}
                     responses={this.props.question.responses}
                     updateIndex={this.props.updateIndex}
                     updateStory={this.props.updateStory}>
                   </Form>
     }
     return (
-      <div>
-        <h3>nº {this.props.question.id} / 12</h3>
-        <h2>{this.props.question.title}</h2>
-          {/* {this.props.question.responses.type} */}
+      <div className="form-question">
+        {/* <h3>nº {this.props.question.id} / 12</h3> */}
+        <p>{this.props.question.title}</p>
           {responses}
       </div>
     );
@@ -57,13 +54,15 @@ class Multiple extends React.Component {
   }
   handleResponse(event){
     this.props.updateIndex('next');
-    // this.props.updateStory(event.target.value, this.props.questionId);
     this.props.updateStory(event.target.value, this.props.responses.name);
+  }
+  componentDidMount(){
+   ReactDOM.findDOMNode(this.refs.input0).focus();
   }
   render(){
     var responses = this.props.responses.values.map((response, index) => {
       return (
-        <button key={index} onClick={this.handleResponse} value={response}>{response}</button>
+        <button key={index} onClick={this.handleResponse} ref={"input" + index} value={response}>{response}</button>
       )
     })
     return (
@@ -78,7 +77,16 @@ class Multiple extends React.Component {
 class Select extends React.Component {
   constructor(props){
     super(props);
+    this.state = {
+      value: this.props.responses.values[0]
+    }
     this.handleResponse = this.handleResponse.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(e){
+      this.setState = {
+        value: e.target.value
+      }
   }
   handleResponse(event){
     this.props.updateIndex('next');
@@ -87,13 +95,14 @@ class Select extends React.Component {
     this.props.updateStory(event.target.value, this.props.responses.name);
   }
   render(){
-    var responses = this.props.responses.values.map((response, index) => {
+    // var responses = this.props.responses.values.map((response, index) => {
+    var responses = this.props.schools.map((response, index) => {
       return (
-        <option key={index} value={response}>{response}</option>
+        <option key={index} value={response} >{response}</option>
       )
     });
     return (
-      <select onChange={this.handleResponse} multiple>
+      <select onClick={this.handleResponse} onChange={this.handleChange} multiple autoFocus>
         {responses}
       </select>
     )
@@ -105,6 +114,9 @@ class Boolean extends React.Component {
   constructor(props){
     super(props);
     this.handleResponse = this.handleResponse.bind(this);
+  }
+  componentDidMount(){
+   ReactDOM.findDOMNode(this.refs.input0).focus();
   }
   handleResponse(event){
     // this.props.updateIndex('next');
@@ -120,7 +132,7 @@ class Boolean extends React.Component {
   render(){
     return (
       <div>
-        <button onClick={this.handleResponse} value={this.props.responses.true}>Yes</button>
+        <button onClick={this.handleResponse} value={this.props.responses.true} ref="input0">Yes</button>
         <button onClick={this.handleResponse} value={this.props.responses.false}>No</button>
       </div>
     )
@@ -135,6 +147,9 @@ class Form extends React.Component {
       value: []
     }
     this.handleResponse = this.handleResponse.bind(this);
+  }
+  componentDidMount(){
+   ReactDOM.findDOMNode(this.refs.input0).focus();
   }
   handleResponse(event){
     event.preventDefault();
@@ -152,11 +167,11 @@ class Form extends React.Component {
     var responses = this.props.responses.inputs.map((response, index) => {
       let inputElement = null;
       if (response.type === "date"){
-          inputElement = <input id={response.type + index} name={response.type + index} type={response.type} />
+          inputElement = <input id={response.type + index} name={response.type + index} ref={"input" + index} type={response.type} />
       }
       if (response.type === "number"){
           // inputElement = <input id={response.type + index} name={response.type + index} type={response.type} min={response.min} max={response.max} />
-          inputElement = <NumericInput id={response.type + index} name={response.type + index} min={response.min} max={response.max} value={0.00} step={response.step}/>
+          inputElement = <NumericInput id={response.type + index} name={response.type + index} ref={"input" + index} min={response.min} max={response.max} value={0.00} step={response.step} precision={response.precision}/>
       }
       return (
         <div key={index}>
@@ -173,9 +188,5 @@ class Form extends React.Component {
     )
   }
 }
-
-
-
-
 
 export default Question;

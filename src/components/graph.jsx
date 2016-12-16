@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 
 import * as d3 from "d3";
 import Faux from 'react-faux-dom';
@@ -9,24 +10,9 @@ class Graph extends React.Component {
     return (
       <div className="graph-container">
         <h1>Graph</h1>
-        <MyReactClass data={this.props.data}></MyReactClass>
+        <MyReactClass data={this.props.data} schoolData={this.props.schoolData}></MyReactClass>
       </div>
     );
-  }
-}
-
-class Chart extends React.Component {
-  componentDidMount(){
-    console.log("chart mounted 🔥");
-    console.log(d3);
-  }
-  render(){
-    return (
-      <div>
-      <div className="chart"></div>
-
-      </div>
-    )
   }
 }
 
@@ -45,32 +31,44 @@ const MyReactClass = React.createClass({
   render () {
     var scores = [];
 
-    // test values
+    /**
+    * test values
+    **/
     let satScore = [];
     let gpa = 3;
-    // Default value
+
+    /**
+    * Default value
+    **/
     // let satScore = 0;
     // let gpa = 0;
 
-    this.props.data.forEach((answer) => {
-      switch (answer.id) {
-        case "sat-score":
-            // satScore = parseInt(answer.value[0]) + parseInt(answer.value[1]);
-            satScore.push(parseInt(answer.value[0]) + parseInt(answer.value[1]));
-          break;
-        case "gpa":
-            gpa = answer.value[0];
-        default:
-          console.log('error');
-      }
-    });
-
     var dataset = [];
-    satScore.forEach((score) => {
-      console.log(score);
-      dataset.push([score, gpa]);
-    });
-    // var dataset = [ [satScore[0], gpa], [satScore[1], gpa] ];
+
+    let gpaWeighted = this.props.data.gpa[0][0];
+
+    if (this.props.data.satScore.length > 0){
+      for (var i = 0; i < this.props.data.satScore.length; i++) {
+        var satReadingAndWriting = this.props.data.satScore[i][1];
+        var satMath = this.props.data.satScore[i][2];
+        var satTotal = parseInt(satReadingAndWriting) + parseInt(satMath);
+        dataset.push([satTotal, gpaWeighted]);
+      }
+    }
+    else {
+      var dataset = [ [1440, 2.3] ];
+    }
+
+    const school = this.props.data.school[0];
+    console.log(school);
+    let schoolIndex = _.findIndex(this.props.schoolData, function(o) { return o.collegeName == school; });
+    console.log(this.props.schoolData);
+    console.log(schoolIndex);
+    let schoolSat50 = this.props.schoolData[schoolIndex].SAT50;
+    let schoolGPA = this.props.schoolData[schoolIndex].weightedGPA;
+    console.log("sat50: " + schoolSat50 + ", gpa: " + schoolGPA);
+    // var dataSchool = [ [1040, 3] ];
+    var dataSchool = [ [schoolSat50, schoolGPA] ];
 
     // console.log(scores);
     var node = Faux.createElement('svg');
@@ -85,48 +83,69 @@ const MyReactClass = React.createClass({
       .attr("width", w)
       .attr("height", h);
 
+    // Define Scales
     var xScale = d3.scaleLinear()
        .domain([0, 1600])
        .range([padding, w - padding * 2 ]);
 
+    var yScale = d3.scaleLinear()
+        .domain([0, 5])
+        .range([h - padding, padding]);
+
+    // Define Axes
     var xAxis = d3.axisBottom(xScale).ticks(8);
+    var yAxis = d3.axisLeft(yScale).ticks(5);
 
     svg.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + (h - padding) + ")")
         .call(xAxis);
 
-    var yScale = d3.scaleLinear()
-        // .domain([0, d3.max(dataset, function(d) { return d[1]; })])
-        .domain([0, 4])
-        .range([h - padding, padding]);
-
-    var yAxis = d3.axisLeft(yScale).ticks(5);
-
     svg.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(" + padding + ",0)")
         .call(yAxis);
 
-    var rScale = d3.scaleLinear()
-       .domain([0, d3.max(dataset, function(d) { return d[1]; })])
-       .range([2, 5]);
-
-    svg.selectAll("circle")
-     .data(dataset)
-     .enter()
-     .append("circle")
-     .attr("cx", function(d) {
-          return xScale(d[0]);
+    svg.selectAll("rect")
+      .data(dataSchool)
+      .enter()
+      .append("rect")
+      .attr("fill", "red")
+      .attr("x", 0)
+      .attr("opacity", 0.5)
+      .attr("y", function(d){
+        return yScale(d[1])
       })
-      .attr("cy", function(d) {
-          return yScale(d[1]);
+      .attr("transform", "translate(" + padding + ",0)")
+      .attr("width", function(d){
+        return xScale(d[0]);
       })
-      // .attr("r", 5);
-      .attr("r", function(d) {
-          // return Math.sqrt(h - d[1]);
-          return rScale(d[1]);
+      .attr("height", function(d){
+        return 300 - padding - yScale(d[1]) ;
       });
+
+      /**
+      * circle representing the score
+      **/
+      var rScale = d3.scaleLinear()
+         .domain([0, 1600])
+         .range([4, 16]);
+
+      svg.selectAll("circle")
+       .data(dataset)
+       .enter()
+       .append("circle")
+       .attr("cx", function(d) {
+            return xScale(d[0]);
+        })
+        .attr("cy", function(d) {
+            return yScale(d[1]);
+        })
+        // .attr("r", 5);
+        .attr("r", function(d) {
+            // return Math.sqrt(h - d[1]);
+            return rScale(d[0]);
+        });
 
     // svg.selectAll("text")
     //   .data(dataset)
