@@ -1,6 +1,8 @@
-$gray: #ccc;
-$dark-gray: #aaa;
 $white: #fff;
+$primary-color: #3F51B5;
+$dark-primary-color: #303F9F;
+$dark-gray: #aaa;
+$gray: #ccc;
 
 /* apply a natural box layout model to all elements, but allowing components to change */
 html {
@@ -8,12 +10,6 @@ html {
 }
 *, *:before, *:after {
   box-sizing: inherit;
-}
-
-*:focus {
-  outline: 0;
-  background-color: $dark-gray;
-  color: $white;
 }
 
 html,
@@ -32,10 +28,18 @@ button {
   display: block;
   background-image: none;
   background-color: transparent;
-  border: 1px solid $gray;
+  // border: 1px solid $gray;
+  border: none;
   padding: 15px;
   margin: 5px 0px;
   width: 100%;
+  border-radius: 8px;
+
+  &:focus {
+    outline: 0;
+    background-color: $primary-color;
+    color: $white;
+  }
 }
 
 .react-numeric-input {
@@ -46,7 +50,14 @@ input[type="date"],
 input[type="text"] {
   width: 100%;
   padding: 8px;
+  border: none;
+  border-bottom: 1px solid $dark-gray;
   // margin-bottom: 16px;
+
+  &:focus {
+    outline: 0;
+    border-bottom-color: $dark-primary-color;
+  }
 }
 
 label {

@@ -21,7 +21,7 @@
         "responses":
           {
             "name": "school",
-            "type": "list",
+            "type": "multiple",
             "json": true,
             "values": [
               "Brown University",
