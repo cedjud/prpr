@@ -71,8 +71,8 @@ const MyReactClass = React.createClass({
     var node = Faux.createElement('svg');
 
     // http://alignedleft.com/tutorials/d3/making-a-bar-chart
-    var w = 500;
-    var h = 300;
+    var w = 600;
+    var h = 400;
     var barPadding = 1;
     var padding = 20;
 
@@ -107,9 +107,9 @@ const MyReactClass = React.createClass({
       .data(dataSchool)
       .enter()
       .append("rect")
-      .attr("fill", "red")
+      .attr("fill", "#C5CAE9")
       .attr("x", 0)
-      .attr("opacity", 0.5)
+      // .attr("opacity", 0.5)
       .attr("y", function(d){
         return yScale(d[1])
       })
@@ -132,6 +132,7 @@ const MyReactClass = React.createClass({
        .data(dataset)
        .enter()
        .append("circle")
+       .attr("fill","#303F9F")
        .attr("cx", function(d) {
             return xScale(d[0]);
         })

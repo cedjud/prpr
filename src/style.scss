@@ -1,6 +1,9 @@
 $white: #fff;
 $primary-color: #3F51B5;
 $dark-primary-color: #303F9F;
+$light-primary-color: #C5CAE9;
+$primary-text: #212121;
+$secondary-text: #757575;
 $dark-gray: #aaa;
 $gray: #ccc;
 
@@ -28,8 +31,7 @@ button {
   display: block;
   background-image: none;
   background-color: transparent;
-  // border: 1px solid $gray;
-  border: none;
+  border: 1px solid $light-primary-color;
   padding: 15px;
   margin: 5px 0px;
   width: 100%;
@@ -37,8 +39,12 @@ button {
 
   &:focus {
     outline: 0;
-    background-color: $primary-color;
-    color: $white;
+    // background-color: $primary-color;
+    // color: $white;
+  }
+
+  &:hover {
+    background-color: $light-primary-color;
   }
 }
 
@@ -54,10 +60,10 @@ input[type="text"] {
   border-bottom: 1px solid $dark-gray;
   // margin-bottom: 16px;
 
-  &:focus {
-    outline: 0;
-    border-bottom-color: $dark-primary-color;
-  }
+  // &:focus {
+  //   outline: 0;
+  //   border-bottom-color: $dark-primary-color;
+  // }
 }
 
 label {
@@ -72,10 +78,12 @@ dl {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-end;
+  letter-spacing: 0.2px;
 
   dt {
     flex: 0 0 25%;
     text-align: right;
+    font-weight: 200;
   }
   dd {
     flex: 0 0 75%;
@@ -101,7 +109,39 @@ dl {
   margin: 0px;
   padding: 16px;
   position: fixed;
+  z-index: 200;
+  // color: $white;
+}
+
+.header {
   color: $white;
+}
+.sidepanel-toggle {
+  color: $white;
+}
+@media (max-width: 900px){
+  .header {
+    color: $primary-text;
+  }
+  .sidepanel-toggle {
+    color: $primary-text;
+  }
+}
+.active {
+  .header {
+    color: $white;
+  }
+  .sidepanel-toggle {
+    color: $white;
+  }
+  .content {
+    @media (max-width: 900px){
+      transform: translateX(0%);
+      .questions,
+      .story {
+      }
+    }
+  }
 }
 
 .content {
@@ -126,10 +166,33 @@ dl {
     flex-basis: 50%;
     padding: 16px;
     padding-top: 96px;
+    color: $dark-primary-color;
+
+    .multiple {
+      button {
+        margin: 0px;
+        border-radius: 0px;
+        border-bottom-width: 0px;
+
+        &:first-child {
+          margin-top: 8px;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+        }
+        &:last-child {
+          margin-bottom: 8px;
+          border-bottom-left-radius: 8px;
+          border-bottom-right-radius: 8px;
+          border-bottom-width: 1px;
+        }
+      }
+    }
   }
 
   @media (max-width: 900px){
     transform: translateX(-100%);
+    transition: transform .2s ease-in;
+
     .questions,
     .story {
       flex-basis: 100%;
@@ -147,8 +210,8 @@ dl {
 
 svg {
   // border: 1px solid gray;
-  width: 100%;
-  height: auto;
+  // width: 100%;
+  // height: auto;
 }
 
 .axis path,
@@ -192,4 +255,38 @@ svg {
   position: absolute;
   bottom: 16px;
   left: 16px;
+}
+
+.react-numeric-input {
+   input {
+    // width: 100%;
+    padding: 8px!important;
+    border: none!important;
+    border-bottom: 1px solid #aaa!important;
+  }
+  b {
+    position: absolute;
+    right: 2px;
+    width: 2.26ex;
+    border-color: rgba(0, 0, 0, 0.0980392);
+    border-style: solid;
+    text-align: center;
+    cursor: default;
+    transition: all 0.1s;
+    // background: rgba(0, 0, 0, 0.0980392);
+    background-color: transparent!important;
+    box-shadow: rgba(0, 0, 0, 0.0980392) -1px -1px 3px inset, rgba(255, 255, 255, 0.701961) 1px 1px 3px inset;
+    box-shadow: none!important;
+    top: 2px;
+    bottom: 50%;
+    border-radius: 2px 2px 0px 0px;
+    border-width: 1px 1px 0px;
+
+    &:first-of-type {
+      top: 0px!important;
+    }
+    &:last-of-type {
+      bottom: 0px!important;
+    }
+  }
 }

@@ -12,9 +12,9 @@ class Multiple extends React.Component {
     this.props.updateIndex('next');
     this.props.updateStory(event.target.value, this.props.responses.name);
   }
-  componentDidMount(){
-   ReactDOM.findDOMNode(this.refs.input0).focus();
-  }
+  // componentDidMount(){
+  //  ReactDOM.findDOMNode(this.refs.input0).focus();
+  // }
   render(){
     let responses;
     let values;
@@ -29,7 +29,7 @@ class Multiple extends React.Component {
       )
     })
     return (
-      <div>
+      <div className="multiple">
         {responses}
       </div>
     )

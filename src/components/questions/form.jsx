@@ -12,9 +12,9 @@ class Form extends React.Component {
     }
     this.handleResponse = this.handleResponse.bind(this);
   }
-  componentDidMount(){
-   ReactDOM.findDOMNode(this.refs.input0).focus();
-  }
+  // componentDidMount(){
+  //  ReactDOM.findDOMNode(this.refs.input0).focus();
+  // }
   handleResponse(event){
     event.preventDefault();
     let inputs = event.target.querySelectorAll('input');

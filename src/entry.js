@@ -25,15 +25,23 @@ class App extends React.Component {
     this.state = {
       index: 0,
       responsesObject: {},
-      responses: []
+      responses: [],
+      sidePanelActve: false
     };
     this.gotoIndex = this.gotoIndex.bind(this);
     this.updateIndex = this.updateIndex.bind(this);
     this.updateStory = this.updateStory.bind(this);
+    this.toggleSidePanel = this.toggleSidePanel.bind(this);
   }
   // componentDidMount(){
   //   this.updateIndex('goto',11);
   // }
+  toggleSidePanel(){
+    console.log('side');
+    this.setState({
+      sidePanelActve: !this.state.sidePanelActve
+    })
+  }
   updateStory(value, id){
     let newObject = this.state.responsesObject;
     if (_.has(newObject, id)){
@@ -89,7 +97,7 @@ class App extends React.Component {
     if (this.state.index === 10) {
       content = (
           <Graph data={this.state.responsesObject} schoolData={this.props.schoolData}></Graph>
-)
+      )
     } else {
       content = (
         <div className="questions">
@@ -103,7 +111,7 @@ class App extends React.Component {
       )
     }
     return (
-      <div>
+      <div className={this.state.sidePanelActve ? 'active' : 'inactive'}>
         <Header title={this.props.data.title}></Header>
         <main className="content">
           <div className="story">
@@ -114,9 +122,9 @@ class App extends React.Component {
           </div>
           {content}
         </main>
-        {/* <div className="sidepanel-toggle">
-          <i className="material-icons">face</i>
-        </div> */}
+        <div className="sidepanel-toggle" onClick={this.toggleSidePanel}>
+          <i className="material-icons">help_outline</i>
+        </div>
         {/* <Debug
             updateIndex={this.updateIndex}
             gotoIndex={this.gotoIndex}>
