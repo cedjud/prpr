@@ -114,10 +114,13 @@ class App extends React.Component {
           </div>
           {content}
         </main>
-        <Debug
+        {/* <div className="sidepanel-toggle">
+          <i className="material-icons">face</i>
+        </div> */}
+        {/* <Debug
             updateIndex={this.updateIndex}
             gotoIndex={this.gotoIndex}>
-        </Debug>
+        </Debug> */}
       </div>
     );
   }
