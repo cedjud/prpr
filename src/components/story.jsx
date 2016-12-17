@@ -17,10 +17,23 @@ class Story extends React.Component {
         <dl key={index}>
         <dt>{key}</dt>
         {this.props.responses[key].map((response,index) => {
-          return (
-            <dd key={index}>{response}</dd>
-          )})}
-        </dl>
+          if (typeof(response) === "string" ){
+            return (
+              <dd key={index}>{response}</dd>
+            )
+          } else {
+            return (
+              <dd key={index}>
+                 {response.map((responsePart,index) => {
+                  return (
+                    <span key={index}>{responsePart}</span>
+                  )
+                 })}
+              </dd>
+            )
+          }
+        })}
+      </dl>
       )
     })
     return (

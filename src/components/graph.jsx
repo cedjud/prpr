@@ -49,10 +49,11 @@ const MyReactClass = React.createClass({
 
     if (this.props.data.satScore.length > 0){
       for (var i = 0; i < this.props.data.satScore.length; i++) {
+        var satDate = this.props.data.satScore[i][0];
         var satReadingAndWriting = this.props.data.satScore[i][1];
         var satMath = this.props.data.satScore[i][2];
         var satTotal = parseInt(satReadingAndWriting) + parseInt(satMath);
-        dataset.push([satTotal, gpaWeighted]);
+        dataset.push([satTotal, gpaWeighted, {date: satDate, readingAndWriting: satReadingAndWriting, math: satMath}]);
       }
     }
     else {
@@ -60,13 +61,9 @@ const MyReactClass = React.createClass({
     }
 
     const school = this.props.data.school[0];
-    console.log(school);
     let schoolIndex = _.findIndex(this.props.schoolData, function(o) { return o.collegeName == school; });
-    console.log(this.props.schoolData);
-    console.log(schoolIndex);
     let schoolSat50 = this.props.schoolData[schoolIndex].SAT50;
     let schoolGPA = this.props.schoolData[schoolIndex].weightedGPA;
-    console.log("sat50: " + schoolSat50 + ", gpa: " + schoolGPA);
     // var dataSchool = [ [1040, 3] ];
     var dataSchool = [ [schoolSat50, schoolGPA] ];
 
@@ -151,18 +148,16 @@ const MyReactClass = React.createClass({
     //   .data(dataset)
     //   .enter()
     //   .append("text")
-    //   .text(function(d) {
-    //     return d[0] + "," + d[1];
-    //   })
+    //   .text("yellow")
     //   .attr("x", function(d) {
     //      return xScale(d[0]);
     //   })
     //   .attr("y", function(d) {
-    //        return yScale(d[1]);
+    //       return yScale(d[1]);
     //   })
     //   .attr("font-family", "sans-serif")
     //   .attr("font-size", "11px")
-    //   .attr("fill", "red");
+    //   .attr("fill", "black");
 
     return node.toReact();
   }
