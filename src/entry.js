@@ -89,7 +89,7 @@ class App extends React.Component {
     if (this.state.index === 10) {
       content = (
           <Graph data={this.state.responsesObject} schoolData={this.props.schoolData}></Graph>
-        );
+)
     } else {
       content = (
         <div className="questions">
