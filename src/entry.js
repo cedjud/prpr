@@ -96,7 +96,12 @@ class App extends React.Component {
     });
     if (this.state.index === 10) {
       content = (
+        <div className="graph">
           <Graph data={this.state.responsesObject} schoolData={this.props.schoolData}></Graph>
+          <div className="sidepanel-toggle" onClick={this.toggleSidePanel}>
+            <i className="material-icons">arrow_forward</i>
+          </div>
+        </div>
       )
     } else {
       content = (
@@ -107,6 +112,9 @@ class App extends React.Component {
             updateIndex={this.updateIndex}
             updateStory={this.updateStory}>
           </Question>
+          <div className="sidepanel-toggle" onClick={this.toggleSidePanel}>
+            <i className="material-icons">arrow_forward</i>
+          </div>
         </div>
       )
     }
@@ -119,12 +127,12 @@ class App extends React.Component {
               responses={this.state.responsesObject}
               questions={this.props.data.questions}>
             </Story>
+            <div className="sidepanel-toggle" onClick={this.toggleSidePanel}>
+              <i className="material-icons">arrow_back</i>
+            </div>
           </div>
           {content}
         </main>
-        <div className="sidepanel-toggle" onClick={this.toggleSidePanel}>
-          <i className="material-icons">help_outline</i>
-        </div>
         {/* <Debug
             updateIndex={this.updateIndex}
             gotoIndex={this.gotoIndex}>

@@ -2,42 +2,83 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import Dimensions from 'react-dimensions';
+import {FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
 import * as d3 from "d3";
 import Faux from 'react-faux-dom';
 
 class Graph extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      data: this.props.data,
+      selectedSchool: this.props.data.school[0]
+    };
+    this.selectSchool = this.selectSchool.bind(this);
+  }
+  selectSchool(e){
+    console.log('selectSchool');
+    console.log(e.target.value);
+    this.setState({
+      selectedSchool: e.target.value
+    })
+  }
   render(){
+    let schoolSelect;
+    // if (this.props.data.school.length > 0){
+    //   schoolSelect = (
+    //     <select onChange={this.selectSchool}>
+    //       {this.props.data.school.map((school,index) => {
+    //           return (
+    //             <option key={index}> {school} </option>
+    //           );
+    //       })}
+    //     </select>
+    //   );
+    // };
+    schoolSelect = (
+      <FormGroup controlId="formControlsSelect">
+        {/* <ControlLabel>Select</ControlLabel> */}
+        <FormControl componentClass="select" placeholder="school" onChange={this.selectSchool}>
+          {this.props.data.school.map((school,index) => {
+              return (
+                <option key={index} value={school}> {school} </option>
+              );
+          })}
+        </FormControl>
+      </FormGroup>
+    );
     return (
       <div className="graph-container">
-        <h1>Graph</h1>
-        {/* <MyReactClass data={this.props.data} schoolData={this.props.schoolData}></MyReactClass> */}
-        <EnhancedComponent data={this.props.data} schoolData={this.props.schoolData}/>
+        <div className="graph__header">
+          <h3>Graph Title</h3>
+          {schoolSelect}
+        </div>
+        <div className="graph__svg">
+          <EnhancedComponent data={this.state.data} school={this.state.selectedSchool} schoolData={this.props.schoolData}/>
+        </div>
       </div>
     );
   }
 }
 
-class MyComponent extends React.Component {
-  // static propTypes = {
-  //   containerWidth: PropTypes.number.isRequired,
-  //   containerHeight: PropTypes.number.isRequired
-  // }
-
+class ResponsiveContainer extends React.Component {
   render () {
     return (
-      <div style={{
-        width: this.props.containerWidth,
-        height: this.props.containerHeight
-      }}>
-        {`${this.props.containerWidth}px x ${this.props.containerHeight}px`}
-        <MyReactClass height={this.props.containerHeight} width={this.props.containerWidth} data={this.props.data} schoolData={this.props.schoolData}></MyReactClass>
+      <div style={{ width: this.props.containerWidth, height: this.props.containerHeight }}>
+        <MyReactClass
+          height={this.props.containerHeight}
+          width={this.props.containerWidth}
+          data={this.props.data}
+          school={this.props.school}
+          schoolData={this.props.schoolData}>
+        </MyReactClass>
       </div>
 		)
   }
 }
 
-const EnhancedComponent = Dimensions({elementResize: true, className: 'react-dimensions-wrapper'})(MyComponent)
+const EnhancedComponent = Dimensions({elementResize: true, className: 'react-dimensions-wrapper'})(ResponsiveContainer)
 
 const MyReactClass = React.createClass({
   mixins: [
@@ -57,9 +98,11 @@ const MyReactClass = React.createClass({
     let satScore = [];
     var dataset = [];
     let gpa = 0;
+    let scoreType = '';
+    scoreType = "SAT50";
     let gpaWeighted = this.props.data.gpa[0][0];
 
-    if (this.props.data.satScore.length > 0){
+    if (this.props.data.satScore && this.props.data.satScore.length > 0){
       for (var i = 0; i < this.props.data.satScore.length; i++) {
         var satDate = this.props.data.satScore[i][0];
         var satReadingAndWriting = this.props.data.satScore[i][1];
@@ -70,12 +113,20 @@ const MyReactClass = React.createClass({
     }
     else {
       // Otherwise set some defaul values.
-      var dataset = [ [1440, 2.3] ];
+      var dataset = [ [1440, 2.3], [980, 4.0] ];
     }
 
-    const school = this.props.data.school[0];
+    // const school = this.props.data.school[0];
+
+    // get the school name
+    let school = this.props.school;
+
+    // Parse schoolData array and return object that matches school name
     let schoolIndex = _.findIndex(this.props.schoolData, function(o) { return o.collegeName == school; });
-    let schoolSat50 = this.props.schoolData[schoolIndex].SAT50;
+    console.log(scoreType);
+    // Set schoolSat50 to type of scoreType
+    let schoolSat50 = this.props.schoolData[schoolIndex][scoreType];
+    // let schoolSat50 = this.props.schoolData[schoolIndex].SAT50;
     let schoolGPA = this.props.schoolData[schoolIndex].weightedGPA;
     // var dataSchool = [ [1040, 3] ];
     var dataSchool = [ [schoolSat50, schoolGPA] ];
@@ -147,7 +198,7 @@ const MyReactClass = React.createClass({
        .data(dataset)
        .enter()
        .append("circle")
-       .attr("fill","#303F9F")
+       .attr("fill","#FFCDD2")
        .attr("cx", function(d) {
             return xScale(d[0]);
         })

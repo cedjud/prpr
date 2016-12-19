@@ -1,0 +1,92 @@
+input[type="date"],
+input[type="text"]{
+  width: 100%;
+  padding: 8px;
+  border: none;
+  font-size: 24px;
+  font-weight: lighter!important;
+  color: $dark-primary-color;
+  border-bottom: 1px solid $primary-color;
+
+  &:focus {
+    border-bottom-width: 2px;
+    outline: 0;
+  }
+}
+
+label {
+  display: inline-block;
+  margin-top: 32px;
+  font-size: 16px;
+  font-weight: lighter;
+  margin-bottom: 8px;
+
+}
+
+button {
+  display: block;
+  background-image: none;
+  background-color: transparent;
+  border: 1px solid $light-primary-color;
+  padding: 15px;
+  margin: 5px 0px;
+  width: 100%;
+  border-radius: 3px;
+  font-size: 18px;
+  font-weight: lighter;
+  color: $dark-primary-color;
+
+  &:focus {
+    outline: 0;
+    // border-width: 2px;
+  }
+
+  &:hover {
+    background-color: $primary-color;
+    color: $white;
+
+  }
+}
+
+// Overrides for react-numeric-input
+.react-numeric-input {
+  width: 100%;
+  margin-bottom: 16px;
+
+  input {
+    // width: 100%;
+    padding: 8px!important;
+    border: none!important;
+    border-bottom: 1px solid #aaa!important;
+
+    &:focus {
+      outline: 0;
+      border-bottom-width: 2px!important;
+    }
+  }
+
+  b {
+    position: absolute;
+    right: 2px;
+    width: 2.26ex;
+    border-color: rgba(0, 0, 0, 0.0980392);
+    border-style: solid;
+    text-align: center;
+    cursor: default;
+    transition: all 0.1s;
+    background-color: transparent!important;
+    box-shadow: rgba(0, 0, 0, 0.0980392) -1px -1px 3px inset, rgba(255, 255, 255, 0.701961) 1px 1px 3px inset;
+    box-shadow: none!important;
+    top: 2px;
+    bottom: 50%;
+    border-radius: 2px 2px 0px 0px;
+    border-width: 1px 1px 0px;
+
+    &:first-of-type {
+      top: 0px!important;
+    }
+    &:last-of-type {
+      bottom: 0px!important;
+    }
+  }
+}

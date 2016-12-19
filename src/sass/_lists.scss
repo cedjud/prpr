@@ -1,0 +1,23 @@
+dl {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  letter-spacing: 0.2px;
+
+  dt {
+    flex: 0 0 25%;
+    text-align: right;
+    font-weight: 200;
+  }
+  dd {
+    flex: 0 0 75%;
+    margin: 0px;
+    padding-left: 16px;
+    padding-bottom: 16px;
+
+    span {
+      margin-right: 16px;
+    }
+  }
+}

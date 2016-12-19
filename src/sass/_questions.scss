@@ -1,0 +1,38 @@
+  .questions {
+    overflow-y: scroll;
+    display: flex;
+    justify-content: center;
+
+    .sidepanel-toggle {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+    }
+
+    .question {
+      width: 360px;
+    }
+
+    .multiple {
+      max-height: calc(100% - 48px);
+      overflow-y: scroll;
+
+      button {
+        margin: 0px;
+        border-radius: 0px;
+        border-bottom-width: 0px;
+
+        &:first-child {
+          margin-top: 8px;
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
+        }
+        &:last-child {
+          margin-bottom: 8px;
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+          border-bottom-width: 1px;
+        }
+      }
+    }
+  }

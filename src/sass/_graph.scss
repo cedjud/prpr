@@ -1,0 +1,50 @@
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+.graph {
+  overflow-y: scroll;
+  display: flex;
+  justify-content: center;
+
+  h3 {
+    margin: 0px;
+  }
+
+  .sidepanel-toggle {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+  }
+
+  .graph-container {
+    width: 100%;
+    padding: 0px 8px 32px;
+    display: flex;
+    flex-direction: column;
+
+    .graph__header {
+        flex: 0 0 24px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+    .graph__svg {
+        flex: 1 1 calc(100% - 24px);
+    }
+  }
+
+  @media (min-width: 900px){
+    .graph__container {
+      padding: 0px 64px 64px;
+    }
+  }
+}

@@ -51,9 +51,9 @@ class Question extends React.Component {
         console.log("No template for this question type.")
     }
     return (
-      <div className="form-question">
-        <h3>nº {this.props.question.id} / 11</h3>
-        <p>{this.props.question.title}</p>
+      <div className="question">
+        {/* <p>nº {this.props.question.id} / 11</p> */}
+        <h3>{this.props.question.title}</h3>
           {responses}
       </div>
     );
