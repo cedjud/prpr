@@ -156,8 +156,8 @@ const MyReactClass = React.createClass({
         .range([h - padding, padding]);
 
     // Define Axes
-    var xAxis = d3.axisBottom(xScale).ticks(8);
-    var yAxis = d3.axisLeft(yScale).ticks(5);
+    var xAxis = d3.axisBottom(xScale).ticks(0);
+    var yAxis = d3.axisLeft(yScale).ticks(0);
 
     svg.append("g")
         .attr("class", "axis")
@@ -174,7 +174,7 @@ const MyReactClass = React.createClass({
       .enter()
       .append("rect")
       .attr("fill", "#C5CAE9")
-      .attr("x", 0)
+      .attr("x", 1)
       // .attr("opacity", 0.5)
       .attr("y", function(d){
         return yScale(d[1])
@@ -198,7 +198,7 @@ const MyReactClass = React.createClass({
        .data(dataset)
        .enter()
        .append("circle")
-       .attr("fill","#FFCDD2")
+       .attr("fill","#303F9F")
        .attr("cx", function(d) {
             return xScale(d[0]);
         })

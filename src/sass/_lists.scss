@@ -8,13 +8,20 @@ dl {
   dt {
     flex: 0 0 25%;
     text-align: right;
-    font-weight: 200;
+    font-weight: bold;
+    text-shadow: 1px 1px 0px $dark-primary-color;
+    font-size: 13px;
+    line-height: 22px;
   }
+
   dd {
     flex: 0 0 75%;
     margin: 0px;
     padding-left: 16px;
+    font-size: 16px;
+    line-height: 20px;
     padding-bottom: 16px;
+    text-shadow: 1px 1px 0px $dark-primary-color;
 
     span {
       margin-right: 16px;
