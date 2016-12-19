@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import Dimensions from 'react-dimensions';
 
 import * as d3 from "d3";
 import Faux from 'react-faux-dom';
@@ -10,11 +11,33 @@ class Graph extends React.Component {
     return (
       <div className="graph-container">
         <h1>Graph</h1>
-        <MyReactClass data={this.props.data} schoolData={this.props.schoolData}></MyReactClass>
+        {/* <MyReactClass data={this.props.data} schoolData={this.props.schoolData}></MyReactClass> */}
+        <EnhancedComponent data={this.props.data} schoolData={this.props.schoolData}/>
       </div>
     );
   }
 }
+
+class MyComponent extends React.Component {
+  // static propTypes = {
+  //   containerWidth: PropTypes.number.isRequired,
+  //   containerHeight: PropTypes.number.isRequired
+  // }
+
+  render () {
+    return (
+      <div style={{
+        width: this.props.containerWidth,
+        height: this.props.containerHeight
+      }}>
+        {`${this.props.containerWidth}px x ${this.props.containerHeight}px`}
+        <MyReactClass height={this.props.containerHeight} width={this.props.containerWidth} data={this.props.data} schoolData={this.props.schoolData}></MyReactClass>
+      </div>
+		)
+  }
+}
+
+const EnhancedComponent = Dimensions({elementResize: true, className: 'react-dimensions-wrapper'})(MyComponent)
 
 const MyReactClass = React.createClass({
   mixins: [
@@ -29,22 +52,11 @@ const MyReactClass = React.createClass({
   },
 
   render () {
+    // declare our variables
     var scores = [];
-
-    /**
-    * test values
-    **/
     let satScore = [];
-    let gpa = 3;
-
-    /**
-    * Default value
-    **/
-    // let satScore = 0;
-    // let gpa = 0;
-
     var dataset = [];
-
+    let gpa = 0;
     let gpaWeighted = this.props.data.gpa[0][0];
 
     if (this.props.data.satScore.length > 0){
@@ -57,6 +69,7 @@ const MyReactClass = React.createClass({
       }
     }
     else {
+      // Otherwise set some defaul values.
       var dataset = [ [1440, 2.3] ];
     }
 
@@ -71,8 +84,10 @@ const MyReactClass = React.createClass({
     var node = Faux.createElement('svg');
 
     // http://alignedleft.com/tutorials/d3/making-a-bar-chart
-    var w = 600;
-    var h = 400;
+    // var w = 600;
+    // var h = 400;
+    var w = this.props.width;
+    var h = this.props.height;
     var barPadding = 1;
     var padding = 20;
 
@@ -118,7 +133,7 @@ const MyReactClass = React.createClass({
         return xScale(d[0]);
       })
       .attr("height", function(d){
-        return 300 - padding - yScale(d[1]) ;
+        return h - padding - yScale(d[1]) ;
       });
 
       /**
