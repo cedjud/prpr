@@ -3,14 +3,14 @@
   padding: 16px 24px;
   position: fixed;
   z-index: 200;
-  color: $white;
+  color: $primary-text;
   font-size: 32px;
   font-weight: lighter;
-  text-shadow: 1px 1px 0px $dark-primary-color;
 }
 
-@media (max-width: 900px){
+@media (min-width: 900px){
   .header {
-    color: $primary-text;
+    color: $white;
+    text-shadow: 1px 1px 0px $dark-primary-color;
   }
 }

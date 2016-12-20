@@ -27,13 +27,13 @@ button {
   display: block;
   background-image: none;
   background-color: transparent;
-  border: 1px solid $light-primary-color;
+  border: 1px solid $dark-primary-color;
   padding: 15px;
   margin: 5px 0px;
   width: 100%;
   border-radius: 3px;
   font-size: 18px;
-  font-weight: lighter;
+  font-weight: normal;
   color: $dark-primary-color;
 
   &:focus {
