@@ -27,20 +27,28 @@
     left: 16px;
   }
 
-  .graph-container {
+  .graph__container {
     width: 100%;
     padding: 0px 8px 32px;
     display: flex;
     flex-direction: column;
 
     .graph__header {
-        flex: 0 0 24px;
+      flex: 0 0 32px;
+      display: flex;
+      justify-content: space-between;
+
+      .graph__actions {
         display: flex;
-        justify-content: space-between;
+
+        .form-group {
+          margin-left: 20px;
+        }
       }
+    }
 
     .graph__svg {
-        flex: 1 1 calc(100% - 24px);
+        flex: 1 1 calc(100% - 32px);
     }
   }
 

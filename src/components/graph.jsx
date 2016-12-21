@@ -12,10 +12,13 @@ class Graph extends React.Component {
     super(props);
     this.state = {
       data: this.props.data,
-      selectedSchool: this.props.data.school[0]
+      selectedSchool: this.props.data.school[0],
+      selectedScoreType: "SAT50"
     };
     this.selectSchool = this.selectSchool.bind(this);
+    this.selectScoreType = this.selectScoreType.bind(this);
   }
+
   selectSchool(e){
     console.log('selectSchool');
     console.log(e.target.value);
@@ -23,22 +26,18 @@ class Graph extends React.Component {
       selectedSchool: e.target.value
     })
   }
+  selectScoreType(e){
+    console.log('selectScoreType');
+    console.log(e.target.value);
+    this.setState({
+      selectedScoreType: e.target.value
+    })
+  }
   render(){
     let schoolSelect;
-    // if (this.props.data.school.length > 0){
-    //   schoolSelect = (
-    //     <select onChange={this.selectSchool}>
-    //       {this.props.data.school.map((school,index) => {
-    //           return (
-    //             <option key={index}> {school} </option>
-    //           );
-    //       })}
-    //     </select>
-    //   );
-    // };
+    let scoreTypeSelect;
     schoolSelect = (
       <FormGroup controlId="formControlsSelect">
-        {/* <ControlLabel>Select</ControlLabel> */}
         <FormControl componentClass="select" placeholder="school" onChange={this.selectSchool}>
           {this.props.data.school.map((school,index) => {
               return (
@@ -48,14 +47,26 @@ class Graph extends React.Component {
         </FormControl>
       </FormGroup>
     );
+    scoreTypeSelect = (
+      <FormGroup controlId="formControlsSelect">
+        <FormControl componentClass="select" placeholder="scoreType" onChange={this.selectScoreType}>
+          <option>SAT25</option>
+          <option selected>SAT50</option>
+          <option>SAT75</option>
+        </FormControl>
+      </FormGroup>
+    );
     return (
-      <div className="graph-container">
+      <div className="graph__container">
         <div className="graph__header">
           <h3>Graph Title</h3>
-          {schoolSelect}
+          <div className="graph__actions">
+            {scoreTypeSelect}
+            {schoolSelect}
+          </div>
         </div>
         <div className="graph__svg">
-          <EnhancedComponent data={this.state.data} school={this.state.selectedSchool} schoolData={this.props.schoolData}/>
+          <EnhancedComponent data={this.state.data} school={this.state.selectedSchool} scoreType={this.state.selectedScoreType} schoolData={this.props.schoolData}/>
         </div>
       </div>
     );
@@ -71,7 +82,8 @@ class ResponsiveContainer extends React.Component {
           width={this.props.containerWidth}
           data={this.props.data}
           school={this.props.school}
-          schoolData={this.props.schoolData}>
+          schoolData={this.props.schoolData}
+          scoreType={this.props.scoreType}>
         </MyReactClass>
       </div>
 		)
@@ -99,7 +111,9 @@ const MyReactClass = React.createClass({
     var dataset = [];
     let gpa = 0;
     let scoreType = '';
-    scoreType = "SAT50";
+    // scoreType = "SAT50";
+    scoreType = this.props.scoreType;
+
     let gpaWeighted = this.props.data.gpa[0][0];
 
     if (this.props.data.satScore && this.props.data.satScore.length > 0){
@@ -156,8 +170,8 @@ const MyReactClass = React.createClass({
         .range([h - padding, padding]);
 
     // Define Axes
-    var xAxis = d3.axisBottom(xScale).ticks(0);
-    var yAxis = d3.axisLeft(yScale).ticks(0);
+    var xAxis = d3.axisBottom(xScale).ticks(8);
+    var yAxis = d3.axisLeft(yScale).ticks(5);
 
     svg.append("g")
         .attr("class", "axis")
@@ -169,6 +183,23 @@ const MyReactClass = React.createClass({
         .attr("transform", "translate(" + padding + ",0)")
         .call(yAxis);
 
+    svg.selectAll("rect")
+      .data(dataSchool)
+      .enter()
+      .append("rect")
+      .attr("fill", "#C5CAE9")
+      .attr("x", 1)
+      // .attr("opacity", 0.5)
+      .attr("y", function(d){
+        return yScale(d[1])
+      })
+      .attr("transform", "translate(" + padding + ",0)")
+      .attr("width", function(d){
+        return xScale(d[0]);
+      })
+      .attr("height", function(d){
+        return h - padding - yScale(d[1]) ;
+      });
     svg.selectAll("rect")
       .data(dataSchool)
       .enter()
@@ -210,21 +241,6 @@ const MyReactClass = React.createClass({
             // return Math.sqrt(h - d[1]);
             return rScale(d[0]);
         });
-
-    // svg.selectAll("text")
-    //   .data(dataset)
-    //   .enter()
-    //   .append("text")
-    //   .text("yellow")
-    //   .attr("x", function(d) {
-    //      return xScale(d[0]);
-    //   })
-    //   .attr("y", function(d) {
-    //       return yScale(d[1]);
-    //   })
-    //   .attr("font-family", "sans-serif")
-    //   .attr("font-size", "11px")
-    //   .attr("fill", "black");
 
     return node.toReact();
   }
