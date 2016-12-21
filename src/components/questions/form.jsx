@@ -35,7 +35,7 @@ class Form extends React.Component {
       }
       if (response.type === "number"){
           // inputElement = <input id={response.type + index} name={response.type + index} type={response.type} min={response.min} max={response.max} />
-          inputElement = <NumericInput id={response.type + index} name={response.type + index} ref={"input" + index} min={response.min} max={response.max} value={0.00} step={response.step} precision={response.precision}/>
+          inputElement = <NumericInput id={response.type + index} name={response.type + index} ref={"input" + index} min={response.min} max={response.max} value={0.00} step={response.step} mobile={true} precision={response.precision}/>
       }
       return (
         <div key={index}>
