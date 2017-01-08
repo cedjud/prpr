@@ -3,7 +3,6 @@ const dist = __dirname + '/dist/';
 
 module.exports = {
   entry: src + 'entry.js',
-  // entry: src + 'line.jsx',
   output: {
     path: dist,
     publicPath: dist,
