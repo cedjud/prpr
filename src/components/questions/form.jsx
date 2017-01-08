@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField';
 
+import FlatButton from 'material-ui/FlatButton';
+
 import NumericInput from 'react-numeric-input';
 
 // FORM Component
@@ -14,18 +16,13 @@ class Form extends React.Component {
     }
     this.handleResponse = this.handleResponse.bind(this);
   }
-  // componentDidMount(){
-  //  ReactDOM.findDOMNode(this.refs.input0).focus();
-  // }
   handleResponse(event){
     event.preventDefault();
     let inputs = event.target.querySelectorAll('input');
     let values = [];
     inputs.forEach((input) => {
       values.push(input.value)
-      // console.log(input.value);
     });
-    // this.props.updateStory(values, this.props.questionId);
     this.props.updateStory(values, this.props.responses.name);
     this.props.updateIndex('next');
   }
@@ -33,12 +30,9 @@ class Form extends React.Component {
     var responses = this.props.responses.inputs.map((response, index) => {
       let inputElement = null;
       if (response.type === "date"){
-          // inputElement = <input id={response.type + index} name={response.type + index} ref={"input" + index} type={response.type} />
-          inputElement = <DatePicker id={response.type + index} name={response.type + index} ref={"input" + index} hintText={response.label} fullWidth={true}/>
+          inputElement = <DatePicker autoOk={true} id={response.type + index} name={response.type + index} ref={"input" + index} hintText={response.label} fullWidth={true}/>
       }
       if (response.type === "number"){
-          // inputElement = <input id={response.type + index} name={response.type + index} type={response.type} min={response.min} max={response.max} />
-          // inputElement = <NumericInput id={response.type + index} name={response.type + index} ref={"input" + index} min={response.min} max={response.max} value={0.00} step={response.step} mobile={true} precision={response.precision}/>
           inputElement = <TextField id={response.type + index} step={response.step} type="number" max={response.max} min={response.min} fullWidth={true} />
       }
       return (
@@ -51,7 +45,7 @@ class Form extends React.Component {
     return (
       <form onSubmit={this.handleResponse}>
         {responses}
-        <button type="submit">confirm</button>
+        <FlatButton type="submit" label="confirm" />
       </form>
     )
   }

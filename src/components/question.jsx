@@ -7,7 +7,8 @@ import NumericInput from 'react-numeric-input';
 import Form from './questions/form.jsx';
 import Select from './questions/select.jsx';
 import Multiple from './questions/multiple.jsx';
-import YesNo from './questions/boolean.jsx';
+import TrueFalse from './questions/boolean.jsx';
+import List from './questions/list.jsx';
 
 class Question extends React.Component {
   render(){
@@ -23,21 +24,21 @@ class Question extends React.Component {
                     </Multiple>
         break;
       case "list":
-        responses = <Select
+        responses = <List
                         questionId={this.props.question.id}
                         responses={this.props.question.responses}
                         schools={this.props.schools}
                         updateIndex={this.props.updateIndex}
                         updateStory={this.props.updateStory}>
-                    </Select>
+                    </List>
         break;
       case "boolean":
-        responses = <YesNo
+        responses = <TrueFalse
                       questionId={this.props.question.id}
                       responses={this.props.question.responses}
                       updateIndex={this.props.updateIndex}
                       updateStory={this.props.updateStory}>
-                    </YesNo>
+                    </TrueFalse>
         break;
       case "form":
         responses = <Form
@@ -52,7 +53,7 @@ class Question extends React.Component {
     }
     return (
       <div className="question">
-        {/* <p>nº {this.props.question.id} / 11</p> */}
+        <p>nº {this.props.question.id} / 11</p>
         <h3>{this.props.question.title}</h3>
           {responses}
       </div>

@@ -18,6 +18,11 @@
       }
     }
 
+    .truefalse {
+      display: flex;
+      justify-content: flex-end;
+    }
+
     .multiple {
       max-height: calc(100% - 48px);
 

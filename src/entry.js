@@ -22,7 +22,6 @@ import Story from './components/story.jsx';
 
 require('./index.html');
 require('./hamburgers.min.css');
-// require('./scss/style.scss');
 require('normalize.css');
 require('./style.scss');
 require('./js/hammer.min.js');
@@ -61,7 +60,7 @@ class App extends React.Component {
       newObject[id].push(value);
     }
   }
-  
+
   updateIndex(type, target){
     switch (type) {
       case 'next':

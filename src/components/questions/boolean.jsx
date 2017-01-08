@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import FlatButton from 'material-ui/FlatButton';
+
 import NumericInput from 'react-numeric-input';
 
-
 // Boolean choice component
-class YesNo extends React.Component {
+class TrueFalse extends React.Component {
   constructor(props){
     super(props);
     this.handleResponse = this.handleResponse.bind(this);
@@ -13,25 +14,21 @@ class YesNo extends React.Component {
   componentDidMount(){
    ReactDOM.findDOMNode(this.refs.input0).focus();
   }
-  handleResponse(event){
-    // this.props.updateIndex('next');
-    // console.log(typeof(event.target.value));
-    if (event.target.value === 'next'){
+  handleResponse(value){
+    if (value === 'next'){
       this.props.updateIndex('next');
     } else {
-      // console.log(event.target.value.split(','));
-      this.props.updateIndex(event.target.value.split(',')[0],event.target.value.split(',')[1]);
+      this.props.updateIndex(value[0],value[1]);
     }
-    // this.props.updateStory(event.target.value);
   }
   render(){
     return (
-      <div>
-        <button onClick={this.handleResponse} value={this.props.responses.true} ref="input0">Yes</button>
-        <button onClick={this.handleResponse} value={this.props.responses.false}>No</button>
+      <div className="truefalse">
+        <FlatButton onClick={() => {this.handleResponse(this.props.responses.true)}} label="Yes" ref="input0" />
+        <FlatButton onClick={() => {this.handleResponse(this.props.responses.false)}} label="No" />
       </div>
     )
   }
 }
 
-export default YesNo;
+export default TrueFalse;
