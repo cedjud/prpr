@@ -21,11 +21,12 @@ class Graph extends React.Component {
     this.selectScoreType = this.selectScoreType.bind(this);
   }
 
-  selectSchool(e){
+  selectSchool(e, i, v){
     console.log('selectSchool');
     console.log(e.target.value);
     this.setState({
-      selectedSchool: e.target.value
+      // selectedSchool: e.target.value
+      selectedSchool: v
     })
   }
   selectScoreType(e, i, v){
