@@ -44,12 +44,14 @@ class App extends React.Component {
   // componentDidMount(){
   //   this.updateIndex('goto',11);
   // }
+
   toggleSidePanel(){
     console.log('side');
     this.setState({
       sidePanelActve: !this.state.sidePanelActve
     })
   }
+
   updateStory(value, id){
     let newObject = this.state.responsesObject;
     if (_.has(newObject, id)){
@@ -59,6 +61,7 @@ class App extends React.Component {
       newObject[id].push(value);
     }
   }
+  
   updateIndex(type, target){
     switch (type) {
       case 'next':
