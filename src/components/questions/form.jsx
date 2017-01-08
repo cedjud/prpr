@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import DatePicker from 'material-ui/DatePicker';
+import TextField from 'material-ui/TextField';
 
 import NumericInput from 'react-numeric-input';
 
@@ -31,11 +33,13 @@ class Form extends React.Component {
     var responses = this.props.responses.inputs.map((response, index) => {
       let inputElement = null;
       if (response.type === "date"){
-          inputElement = <input id={response.type + index} name={response.type + index} ref={"input" + index} type={response.type} />
+          // inputElement = <input id={response.type + index} name={response.type + index} ref={"input" + index} type={response.type} />
+          inputElement = <DatePicker id={response.type + index} name={response.type + index} ref={"input" + index} hintText={response.label} fullWidth={true}/>
       }
       if (response.type === "number"){
           // inputElement = <input id={response.type + index} name={response.type + index} type={response.type} min={response.min} max={response.max} />
-          inputElement = <NumericInput id={response.type + index} name={response.type + index} ref={"input" + index} min={response.min} max={response.max} value={0.00} step={response.step} mobile={true} precision={response.precision}/>
+          // inputElement = <NumericInput id={response.type + index} name={response.type + index} ref={"input" + index} min={response.min} max={response.max} value={0.00} step={response.step} mobile={true} precision={response.precision}/>
+          inputElement = <TextField id={response.type + index} step={response.step} type="number" max={response.max} min={response.min} fullWidth={true} />
       }
       return (
         <div key={index}>

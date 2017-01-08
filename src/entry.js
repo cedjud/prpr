@@ -1,6 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { red500, red700 } from 'material-ui/styles/colors';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
 
 var data = require('./data.json');
 const schoolData = require('./schoolData.json');
@@ -142,8 +150,22 @@ class App extends React.Component {
   }
 }
 
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: red500,
+    primary2Color: red700,
+  },
+});
+
+const AppWrapper = () => (
+  <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
+    <App data={data} schoolData={schoolData}></App>
+  </MuiThemeProvider>
+);
+
 // Render React Root
 ReactDOM.render(
-  <App data={data} schoolData={schoolData}></App>,
+  // <App data={data} schoolData={schoolData}></App>,
+  <AppWrapper />,
   document.getElementById('root')
 );
