@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import Dimensions from 'react-dimensions';
 import {FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
 
 import * as d3 from "d3";
 import Faux from 'react-faux-dom';
@@ -26,35 +28,29 @@ class Graph extends React.Component {
       selectedSchool: e.target.value
     })
   }
-  selectScoreType(e){
-    console.log('selectScoreType');
-    console.log(e.target.value);
+  selectScoreType(e, i, v){
     this.setState({
-      selectedScoreType: e.target.value
+      selectedScoreType: v
     })
   }
   render(){
     let schoolSelect;
     let scoreTypeSelect;
     schoolSelect = (
-      <FormGroup controlId="formControlsSelect">
-        <FormControl componentClass="select" placeholder="school" onChange={this.selectSchool}>
-          {this.props.data.school.map((school,index) => {
-              return (
-                <option key={index} value={school}> {school} </option>
-              );
-          })}
-        </FormControl>
-      </FormGroup>
+      <DropDownMenu value={this.state.selectedSchool} onChange={this.selectSchool}>
+           {this.props.data.school.map((school,index) => {
+               return (
+                 <MenuItem key={index} value={school} primaryText={school} />
+               );
+           })}
+      </DropDownMenu>
     );
     scoreTypeSelect = (
-      <FormGroup controlId="formControlsSelect">
-        <FormControl componentClass="select" placeholder="scoreType" onChange={this.selectScoreType}>
-          <option>SAT25</option>
-          <option selected>SAT50</option>
-          <option>SAT75</option>
-        </FormControl>
-      </FormGroup>
+      <DropDownMenu value={this.state.selectedScoreType} onChange={this.selectScoreType}>
+        <MenuItem value={"SAT25"} primaryText="SAT25" />
+        <MenuItem value={"SAT50"} primaryText="SAT50" />
+        <MenuItem value={"SAT75"} primaryText="SAT75" />
+      </DropDownMenu>
     );
     return (
       <div className="graph__container">
